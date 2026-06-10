@@ -14,8 +14,7 @@ from app.db.session import get_db
 from app.models.revoked_token import RevokedToken
 from app.models.user import User
 from app.schemas.token import LogoutRequest, RefreshTokenRequest, Token
-from app.schemas.user import UserCreate, UserRead
-from app.utils.slug import slugify
+from app.schemas.user import UserCreate
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
