@@ -27,6 +27,9 @@ jobs:
         run: bandit -r app/ -ll
 
       - name: Run tests
+        env:
+          DATABASE_URL: postgresql://test:test@localhost:5432/testdb
+          SECRET_KEY: ci-test-secret-key-not-used-in-production
         run: pytest --cov=app --cov-report=term-missing
 
       - name: Build Docker image
