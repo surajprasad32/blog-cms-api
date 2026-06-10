@@ -1,0 +1,34 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Lint (ruff)
+        run: ruff check .
+
+      - name: Security scan (bandit)
+        run: bandit -r app/ -ll
+
+      - name: Run tests
+        run: pytest --cov=app --cov-report=term-missing
+
+      - name: Build Docker image
+        working-directory: .
+        run: docker build -t blog-cms-api ./backend
